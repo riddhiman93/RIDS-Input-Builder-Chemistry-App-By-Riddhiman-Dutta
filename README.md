@@ -7,6 +7,7 @@ Unlike most existing solutions, this app allows users to input data and instantl
 Its multi-format support streamlines workflow and significantly reduces the learning curve for new users, while also catering to advanced needs through flexible output options. 
 By consolidating data entry, validation, and format conversion into a single tool, the Input Builder App empowers researchers and students to focus more on scientific exploration and less on technical formatting tasks. 
 As Python and GUI frameworks continue to gain traction in the computational chemistry domain, tools like this app are paving the way for more accessible and efficient.
+
 ● Features:
 1)File Input Handling
 Allows users to select and open molecular coordinate input files via a file dialog.
@@ -88,6 +89,54 @@ If Tkinter is missing (on some Linux systems), install it via your package manag
  iii)Observe error messages and stability.
 
 ● Screenshots 
+Input Code:
+Initialization
+<img width="1637" height="469" alt="image" src="https://github.com/user-attachments/assets/10816bc2-5adf-4e00-92c8-92758fbff71b" />
+Functions
+<img width="913" height="655" alt="image" src="https://github.com/user-attachments/assets/db7e64f9-4056-4c31-9d84-4c1b5b700321" />
+<img width="1634" height="655" alt="image" src="https://github.com/user-attachments/assets/1ff25b9f-3c8f-4124-bdec-cec63835cc43" />
+<img width="702" height="667" alt="image" src="https://github.com/user-attachments/assets/92f1b658-3b9f-43df-a0dd-e2a3fdd99b1b" />
+<img width="988" height="667" alt="image" src="https://github.com/user-attachments/assets/e40977ab-3c93-4350-8485-02f591e361b2" />
+<img width="966" height="650" alt="image" src="https://github.com/user-attachments/assets/92eeb47c-687d-4f1a-aeea-8628c8544830" />
+<img width="930" height="650" alt="image" src="https://github.com/user-attachments/assets/5c88bc88-2a74-404d-8a68-da8e55632428" />
+<img width="928" height="665" alt="image" src="https://github.com/user-attachments/assets/0e8ca12a-0087-4a9f-8297-f3bfd1e660ea" />
+<img width="917" height="665" alt="image" src="https://github.com/user-attachments/assets/5a896ef2-78b9-4e78-b48a-924355b5fd6e" />
+<img width="898" height="591" alt="image" src="https://github.com/user-attachments/assets/924e612c-6b22-4b4a-9833-88949550f3c7" />
+<img width="851" height="591" alt="image" src="https://github.com/user-attachments/assets/24d32c97-a35a-46b8-8c23-98f221283694" />
+<img width="1138" height="729" alt="image" src="https://github.com/user-attachments/assets/2a5f9fe5-3223-438e-a22b-b85127371cc3" />
+<img width="1158" height="697" alt="image" src="https://github.com/user-attachments/assets/af2070e8-63e2-4a41-b04b-92e28b6fcac5" />
+<img width="624" height="728" alt="image" src="https://github.com/user-attachments/assets/e4a2b57f-d438-4a09-8d85-8a463c58fe18" />
+<img width="624" height="721" alt="image" src="https://github.com/user-attachments/assets/49d432eb-ee21-44dc-bc5c-9fb031fbc795" />
+<img width="1111" height="715" alt="image" src="https://github.com/user-attachments/assets/3f69e94c-8b17-47f9-b170-87332a6b5d26" />
+<img width="699" height="723" alt="image" src="https://github.com/user-attachments/assets/c0d6fbef-9b72-4816-9199-73b56a21b18d" />
+<img width="580" height="724" alt="image" src="https://github.com/user-attachments/assets/2f8c1ebd-caa4-42cb-bd3f-90a33d3314cd" />
+<img width="735" height="731" alt="image" src="https://github.com/user-attachments/assets/417f3ed4-726d-4505-a24e-b996ab1deb1c" />
+<img width="1698" height="508" alt="image" src="https://github.com/user-attachments/assets/580bbccc-aa67-4493-b047-3e6a58a4a5b0" />
+<img width="1295" height="731" alt="image" src="https://github.com/user-attachments/assets/93b9809e-5ed8-4bc9-9c7d-8ecbadeb0a13" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:
 Main Window
 <img width="1446" height="721" alt="image" src="https://github.com/user-attachments/assets/071502b7-307b-4547-ab5a-d146322ae150" />
 Basis Button Page
