@@ -9,6 +9,7 @@ By consolidating data entry, validation, and format conversion into a single too
 As Python and GUI frameworks continue to gain traction in the computational chemistry domain, tools like this app are paving the way for more accessible and efficient.
 
 ● Features:
+
 1)File Input Handling
 Allows users to select and open molecular coordinate input files via a file dialog.
 Reads coordinate data and number of atoms from the file and displays it.
@@ -62,8 +63,10 @@ If Tkinter is missing (on some Linux systems), install it via your package manag
 3)Get the Project Code
 
 4)Running the Project
+
  i)Run the Main Python Script
    Execute the main script that launches the Tkinter GUI.
+   
  ii)Use the GUI:
    The graphical interface will open.
    Use buttons to open input coordinate files.
@@ -84,6 +87,7 @@ If Tkinter is missing (on some Linux systems), install it via your package manag
 3)File Load Tests
  Use the "Open File" button to load sample coordinate input files ( .xyz).
  Verify that:
+ 
   i)The number of atoms is correctly displayed.
   
   ii)The input coordinate data is displayed in the output area.
@@ -98,11 +102,13 @@ If Tkinter is missing (on some Linux systems), install it via your package manag
 5)Input Generation Tests
  After entering parameters, trigger input generation (via generate or save buttons).
  Check:
+ 
   i)The generated input text preview corresponds correctly to the selected options.
   
   ii)The output conforms to expected syntax of target quantum chemistry software.
   
 6)File Save Tests
+
  i)Save generated input files to disk.
  
  ii)Confirm files are properly saved with user-specified names and extensions.
@@ -110,6 +116,7 @@ If Tkinter is missing (on some Linux systems), install it via your package manag
  iii)Open saved files in an editor to verify the content correctness.
  
 7)GUI Behavior Tests
+
  i)Test resetting inputs and clearing displayed outputs.
  
  ii)Verify UI responsiveness and that no crashes occur during typical workflows.
