@@ -38,7 +38,9 @@ Allows resetting inputs and easy navigation.
 5)Cross-platform Compatibility
 
 ● Steps to install & run the project 
+
 Installation Steps:
+
 1)Install Python
 Download and install Python (version 3.6 or above) from the official website
 2)Install Required Python Packages
@@ -53,43 +55,54 @@ If Tkinter is missing (on some Linux systems), install it via your package manag
    Enter parameters in the provided fields.
    Generate and save input files according to your workflow.
 
-● Instructions for testing 
+● Instructions for testing :
+
 1)Setup Testing Environment
  Ensure Python and Tkinter are properly installed as per installation instructions.
  Open a terminal or command prompt and navigate to the project directory.
+ 
 2)Launch the Application
  Run the main script. 
  Confirm the GUI window opens without errors.
+ 
 3)File Load Tests
  Use the "Open File" button to load sample coordinate input files ( .xyz).
  Verify that:
   i)The number of atoms is correctly displayed.
   ii)The input coordinate data is displayed in the output area.
   iii)Invalid or malformed files show appropriate error messages.
+  
 4)Parameter Input Tests
  Enter values into each parameter field (run type, SCF, charge, multiplicity, basis sets, etc.).
  Test selection options in the dropdown menus.
  Verify fields accept expected inputs and reject invalid entries (e.g., non-numeric where numeric expected).
+ 
 5)Input Generation Tests
  After entering parameters, trigger input generation (via generate or save buttons).
  Check:
   i)The generated input text preview corresponds correctly to the selected options.
   ii)The output conforms to expected syntax of target quantum chemistry software.
+  
 6)File Save Tests
  i)Save generated input files to disk.
  ii)Confirm files are properly saved with user-specified names and extensions.
  iii)Open saved files in an editor to verify the content correctness.
+ 
 7)GUI Behavior Tests
  i)Test resetting inputs and clearing displayed outputs.
  ii)Verify UI responsiveness and that no crashes occur during typical workflows.
  iii)Test cancel or close buttons and confirm graceful exit.
+ 
 8)Edge Case and Error Handling
  i)Try opening non-supported or corrupted files.
  ii)Input boundary values (very large numbers, empty fields).
  iii)Observe error messages and stability.
 
+
 ● Screenshots 
+
 Input Code:
+
 Initialization
 <img width="1637" height="469" alt="image" src="https://github.com/user-attachments/assets/10816bc2-5adf-4e00-92c8-92758fbff71b" />
 Functions
@@ -113,26 +126,16 @@ Functions
 <img width="735" height="731" alt="image" src="https://github.com/user-attachments/assets/417f3ed4-726d-4505-a24e-b996ab1deb1c" />
 <img width="1698" height="508" alt="image" src="https://github.com/user-attachments/assets/580bbccc-aa67-4493-b047-3e6a58a4a5b0" />
 <img width="1295" height="731" alt="image" src="https://github.com/user-attachments/assets/93b9809e-5ed8-4bc9-9c7d-8ecbadeb0a13" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<img width="1673" height="516" alt="image" src="https://github.com/user-attachments/assets/4cf3ab95-a430-406a-a582-8edb5da70b5d" />
+<img width="1227" height="736" alt="image" src="https://github.com/user-attachments/assets/c0937200-0608-4806-9699-f57274f2ecb9" />
+Variables:
+<img width="1000" height="476" alt="image" src="https://github.com/user-attachments/assets/56374970-a2e6-4ed9-a447-8d6c77b616ee" />
+Frames:
+<img width="1530" height="293" alt="image" src="https://github.com/user-attachments/assets/65fe3114-9b7f-4615-8b0d-852f10646d01" />
+Buttons
+<img width="1561" height="577" alt="image" src="https://github.com/user-attachments/assets/6ad8c950-3ebf-4eb7-b798-321185beb939" />
+Logos and Images:
+<img width="1408" height="526" alt="image" src="https://github.com/user-attachments/assets/16cac3c4-e5f6-4585-8c36-bd58d360964f" />
 
 
 
