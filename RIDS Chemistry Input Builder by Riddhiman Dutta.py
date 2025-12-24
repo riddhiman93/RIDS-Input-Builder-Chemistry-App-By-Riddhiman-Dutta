@@ -3,7 +3,7 @@ import tkinter.messagebox as mb
 from tkinter import filedialog
 
 root=Tk()
-root.geometry("1160x550")
+root.geometry("1210x550")
 root.resizable(0,0)
 
 #Functions
@@ -17,15 +17,12 @@ def open_file():
                with open(file_path, 'r', encoding='utf-8') as file:
                    line1=file.readline()
                    line2=file.readline()
-                   #molno=int(line1)
-                   #Label(outframe, text=f"Number of atoms={molno}").place(x=915,y=70)
-
                    content = file.readlines()
                    molno=len(content)
-                   Label(outframe, text=f"Number of atoms={molno}").place(x=915,y=70)
+                   Label(outframe, text=f"Number of atoms={molno}").place(x=1005,y=70)
                    global content_str,newcontent_str
                    content_str = "".join(content)
-                   Label(outframe, text=content_str).place(x=915,y=90)
+                   Label(outframe, text=content_str).place(x=1005,y=90)
                    
                    
            except Exception as e:
@@ -33,14 +30,13 @@ def open_file():
                text_area.insert(tk.END, f"Error reading file: {e}")
 
 
-#elif pgroup.get()=='STO-2G' or pgroup.get()=='STO-3G'or pgroup.get()=='STO-4G'or pgroup.get()=='STO-5G' or pgroup.get()=='STO-6G':
-
-
 def gamesave_file():
-    global rtype,scf,mcharge,mul,max,pgroup,title,miniopt,capspgroup,matrix
+    global rtype,scf,mcharge,mul,max,pgroup,title,miniopt,capspgroup,matrix,scfval,memsize
+    memsize=int(memvalue.get())
     max=omax.get()
     mul=omul.get()
     matrix=zmat.get()
+    scfval=scc.get()
     capspgroup=pgroup.get()
     mcharge=omcharge.get()
     if not rtype.get() or not scf.get() or not omcharge.get() or not omul.get() or not omax.get():
@@ -54,9 +50,9 @@ def gamesave_file():
               if pgroup.get()=="C1":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI":
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -93,9 +89,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G':
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -132,9 +128,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -171,9 +167,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -211,9 +207,9 @@ def gamesave_file():
               elif pgroup.get()=="CS" or pgroup.get()=="CI":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI":
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -251,9 +247,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G':
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -292,9 +288,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -333,9 +329,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{pgroup.get()}")
@@ -374,9 +370,9 @@ def gamesave_file():
               elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI":
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{capspgroup.upper()} 2")
@@ -415,9 +411,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
                  gbasisk=miniopt.get() 
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{capspgroup.upper()} 2")
@@ -456,9 +452,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()                    
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{capspgroup.upper()} 2")
@@ -497,9 +493,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()                    
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $DATA")
                  tex6=Label(outframe,text=f"{title.get()}")
                  tex7=Label(outframe,text=f"{capspgroup.upper()} 2")
@@ -543,9 +539,9 @@ def gamesave_file():
               if pgroup.get()=="C1":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI": 
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -586,9 +582,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -629,9 +625,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()  
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -672,9 +668,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()  
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -718,9 +714,9 @@ def gamesave_file():
               elif pgroup.get()=="CS"or pgroup.get()=="CI":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI":  
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -763,9 +759,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -808,9 +804,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get() 
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -853,9 +849,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get() 
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -900,9 +896,9 @@ def gamesave_file():
               elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI": 
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -945,9 +941,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -990,9 +986,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1035,9 +1031,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1079,12 +1075,13 @@ def gamesave_file():
 
 
            elif rtype.get()=="Hessian":
+            if scf.get()=="RHF" or scf.get()=="ROHF":
               if pgroup.get()=="C1":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1125,9 +1122,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1168,9 +1165,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1211,9 +1208,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1255,9 +1252,9 @@ def gamesave_file():
               elif pgroup.get()=="CS" or pgroup.get()=="CI":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1300,9 +1297,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1345,9 +1342,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1390,9 +1387,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1437,9 +1434,9 @@ def gamesave_file():
               elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
                 if miniopt.get()=="MINI" or miniopt.get()=="MIDI": 
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1482,9 +1479,9 @@ def gamesave_file():
                 elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
                  gbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1527,9 +1524,9 @@ def gamesave_file():
                 elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1572,9 +1569,9 @@ def gamesave_file():
                 elif miniopt.get()=='6-311G':
                  jodbasisk=miniopt.get()
                  tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
-                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY=1000000 $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
                  tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
-                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
                  tex5=Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END")
                  tex6=Label(outframe,text=f" $DATA")
                  tex7=Label(outframe,text=f"{title.get()}")
@@ -1614,6 +1611,541 @@ def gamesave_file():
                  with open(file_path, "a") as file:
                   file.write(" $END"+"\n")
 
+            elif scf.get()=="UHF":
+              if pgroup.get()=="C1":
+                if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+                
+                elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+                 gbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+
+                elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+                 jodbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+                
+                elif miniopt.get()=='6-311G':
+                 jodbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+                  
+
+              elif pgroup.get()=="CS" or pgroup.get()=="CI":
+                if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+
+                elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+                 gbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+
+                elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+                 jodbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+                
+                elif miniopt.get()=='6-311G':
+                 jodbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{pgroup.get()}")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+
+
+                
+              elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
+                if miniopt.get()=="MINI" or miniopt.get()=="MIDI": 
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{capspgroup.upper()} 2")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+                
+                elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+                 gbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{capspgroup.upper()} 2")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+
+                elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+                 jodbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{capspgroup.upper()} 2")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n")
+                
+                elif miniopt.get()=='6-311G':
+                 jodbasisk=miniopt.get()
+                 tex1=Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END")
+                 tex2=Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*131072} $END")
+                 tex3=Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END")
+                 tex4=Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END")
+                 tex5=Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END")
+                 tex6=Label(outframe,text=f" $DATA")
+                 tex7=Label(outframe,text=f"{title.get()}")
+                 tex8=Label(outframe,text=f"{capspgroup.upper()} 2")
+
+
+                 txt1=tex1.cget("text")
+                 txt2=tex2.cget("text")
+                 txt3=tex3.cget("text")
+                 txt4=tex4.cget("text")
+                 txt5=tex5.cget("text")
+                 txt6=tex6.cget("text")
+                 txt7=tex7.cget("text")
+                 txt8=tex8.cget("text")
+
+                 # Write the content to the selected file
+                 with open(file_path, "w") as file:
+                   file.write(txt1+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt2+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt3+"\n")
+                 with open(file_path, "a") as file:
+                   file.write(txt4+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt5+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt6+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt7+"\n")
+                 with open(file_path, "a") as file:
+                  file.write(txt8+"\n")
+                 with open(file_path, "a") as file:
+                  file.write("\n")
+                 with open(file_path, "a") as file:
+                  file.write(content_str)
+                 with open(file_path, "a") as file:
+                  file.write(" $END"+"\n") 
 
 
 def psisave_file():
@@ -1728,31 +2260,487 @@ def psisave_file():
 
 
 def output():
-    global rtype,scf,mcharge,mul,max,pgroup,title,miniopt,omcharge,omul,omax
+    global rtype,scf,mcharge,mul,max,pgroup,title,miniopt,omcharge,omul,omax,matrix,scfval,memsize,capspgroup
     if not rtype.get() or not scf.get() or not omcharge.get() or not omul.get() or not omax.get():
      mb.showerror('Fields empty!', "Please fill all the missing fields !")
     else:
-       #rtype=orun.get()
-       # #scf=oscf.get()
+       memsize=int(memvalue.get())
+       matrix=zmat.get()
+       scfval=scc.get()
        max=omax.get()
        mul=omul.get()
+       capspgroup=pgroup.get()
        mcharge=omcharge.get()
-       Label(outframe,text=f"$CONTRL SCFTYP={scf.get()} RUNTYP={rtype.get()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=230)
-       Label(outframe,text=f"$SYSTEM TIMLIM=525600 MEMORY=1000000 $END").place(x=430,y=250)
-       Label(outframe,text=f"$BASIS GBASIS={miniopt.get()} $END").place(x=430,y=270)
-       Label(outframe,text=f"$SCF DIRSCF=.TRUE. $END").place(x=430,y=290)
-       Label(outframe,text=f"$DATA").place(x=430,y=310)
-       Label(outframe,text=f"{title.get()}").place(x=430,y=330)
-       Label(outframe,text=f"{pgroup.get()}").place(x=430,y=350)
-
+       if rtype.get()=="Energy":
+        if pgroup.get()=="C1":
+         if miniopt.get()=="MINI" or miniopt.get()=="MIDI":
+          Label(outframe,text=f"$CONTRL SCFTYP={scf.get()} RUNTYP={rtype.get()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f"$SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f"$BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+          Label(outframe,text=f"$SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f"$DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+         elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G':
+          gbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+         elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+          jodbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+         elif miniopt.get()=='6-311G':
+          jodbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+        elif pgroup.get()=="CS" or pgroup.get()=="CI":
+         if miniopt.get()=="MINI" or miniopt.get()=="MIDI":
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+         elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G':
+          gbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+         elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+          jodbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+         elif miniopt.get()=='6-311G':
+          jodbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+        elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
+         if miniopt.get()=="MINI" or miniopt.get()=="MIDI":
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=320)
+         elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+          gbasisk=miniopt.get() 
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=320)
+         elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+          jodbasisk=miniopt.get()                    
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=320)
+         elif miniopt.get()=='6-311G':
+          jodbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $DATA").place(x=430,y=280)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=320)
+       elif rtype.get()=="Optimization":
+        if pgroup.get()=="C1":
+         if miniopt.get()=="MINI" or miniopt.get()=="MIDI":
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G':
+          gbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+          jodbasisk=miniopt.get()  
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif miniopt.get()=='6-311G':
+          jodbasisk=miniopt.get()  
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+          gbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+          jodbasisk=miniopt.get() 
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif miniopt.get()=='6-311G':
+          jodbasisk=miniopt.get() 
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+        elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
+         if miniopt.get()=="MINI" or miniopt.get()=="MIDI": 
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+         elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+          gbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+         elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+          jodbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+         elif miniopt.get()=='6-311G':
+          jodbasisk=miniopt.get()
+          Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={"OPTIMIZE"} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+          Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+          Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+          Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+          Label(outframe,text=f" $STATPT OPTTOL=0.0001 NSTEP=20 $END").place(x=430,y=280)
+          Label(outframe,text=f" $DATA").place(x=430,y=300)
+          Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+          Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+       elif rtype.get()=="Hessian":
+        if scf.get()=="RHF" or scf.get()=="ROHF":
+         if pgroup.get()=="C1":
+          if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+                 gbasisk=miniopt.get()
+                 Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+                 Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+                 Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+                 Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+                 Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+                 Label(outframe,text=f" $DATA").place(x=430,y=300)
+                 Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+                 Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+                 jodbasisk=miniopt.get()
+                 Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+                 Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+                 Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+                 Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+                 Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+                 Label(outframe,text=f" $DATA").place(x=430,y=300)
+                 Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+                 Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='6-311G':
+                 jodbasisk=miniopt.get()
+                 Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+                 Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+                 Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+                 Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+                 Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+                 Label(outframe,text=f" $DATA").place(x=430,y=300)
+                 Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+                 Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif pgroup.get()=="CS" or pgroup.get()=="CI":
+          if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+            gbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='6-311G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
+          if miniopt.get()=="MINI" or miniopt.get()=="MIDI": 
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+          elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+            gbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+          elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+          elif miniopt.get()=='6-311G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=ANALYTIC VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+            Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=320)
+        elif scf.get()=="UHF":
+         if pgroup.get()=="C1":
+          if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=200)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=260)
+            Label(outframe,text=f" $DATA").place(x=430,y=280)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=300)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=320)
+          elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+            gbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='6-311G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif pgroup.get()=="CS" or pgroup.get()=="CI":
+          if miniopt.get()=="MINI" or miniopt.get()=="MIDI":   
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+            gbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+          elif miniopt.get()=='6-311G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{pgroup.get()}").place(x=430,y=340)
+         elif pgroup.get()=="Cn" or pgroup.get()=="CnH" or pgroup.get()=="CnV":
+          if miniopt.get()=="MINI" or miniopt.get()=="MIDI": 
+           Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+           Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+           Label(outframe,text=f" $BASIS GBASIS={miniopt.get()} $END").place(x=430,y=240)
+           Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+           Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+           Label(outframe,text=f" $DATA").place(x=430,y=300)
+           Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+           Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+          elif miniopt.get()=='STO-2G' or miniopt.get()=='STO-3G'or miniopt.get()=='STO-4G' or miniopt.get()=='STO-5G' or miniopt.get()=='STO-6G': 
+           gbasisk=miniopt.get()
+           Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+           Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+           Label(outframe,text=f" $BASIS GBASIS=STO NGAUSS={gbasisk[4]} $END").place(x=430,y=240)
+           Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+           Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+           Label(outframe,text=f" $DATA").place(x=430,y=300)
+           Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+           Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+          elif miniopt.get()=='3-21G' or miniopt.get()=='6-21G' or miniopt.get()=='4-31G' or miniopt.get()=='5-31G' or miniopt.get()=='6-31G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:4]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
+          elif miniopt.get()=='6-311G':
+            jodbasisk=miniopt.get()
+            Label(root,text=f" $CONTRL SCFTYP={scf.get()} RUNTYP={(rtype.get()).upper()} MAXIT={max} ICHARG={mcharge} MULT={mul} NZVAR={matrix} $END").place(x=430,y=200)
+            Label(outframe,text=f" $SYSTEM TIMLIM=525600 MEMORY={memsize*128072} $END").place(x=430,y=220)
+            Label(outframe,text=f" $BASIS GBASIS=N{jodbasisk[2:5]} NGAUSS={jodbasisk[0]} $END").place(x=430,y=240)
+            Label(outframe,text=f" $SCF DIRSCF=.TRUE. NCONV={scfval} $END").place(x=430,y=260)
+            Label(outframe,text=f" $FORCE METHOD=SEMINUM VIBSIZ=0.010000 VIBANL=.TRUE. $END").place(x=430,y=280)
+            Label(outframe,text=f" $DATA").place(x=430,y=300)
+            Label(outframe,text=f"{title.get()}").place(x=430,y=320)
+            Label(outframe,text=f"{capspgroup.upper()} 2").place(x=430,y=340)
 
 def control():
-  global omcharge,omax,omul,outframe,geobtnframe,geoframe
-  ctrlmidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+  global omcharge,omax,omul,outframe,geobtnframe,geoframe,logopic
+  ctrlmidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
 
-  outframe=LabelFrame(ctrlmidframe,text="Output",width=470, height=310,bd=2).place(x=420,y=200)
-  geobtnframe=LabelFrame(ctrlmidframe,width=180, height=120,bd=2).place(x=640,y=50)
-  geoframe=LabelFrame(ctrlmidframe,text="Geometry of the Molecule",width=240, height=460,bd=2).place(x=905,y=50)
+  outframe=LabelFrame(ctrlmidframe,text="Output",width=520, height=185,bd=2).place(x=420,y=180)
+  geobtnframe=LabelFrame(ctrlmidframe,width=300, height=120,bd=2).place(x=640,y=50)
+  geoframe=LabelFrame(ctrlmidframe,text="Geometry of the Molecule",width=240, height=465,bd=2).place(x=955,y=45)
   filewritebtnframe=LabelFrame(ctrlmidframe,width=300, height=160,bd=2).place(x=110,y=350)
 
 
@@ -1762,12 +2750,13 @@ def control():
   inframe3=LabelFrame(ctrlmidframe,width=300, height=70,bd=2).place(x=110,y=260)
   inframe4=LabelFrame(ctrlmidframe,width=200, height=120,bd=2).place(x=420,y=50)
 
-  open_button =Button(geobtnframe, text="Open Text File", command=open_file).place(x=685,y=110)
-  psi_button =Button(filewritebtnframe, text="Write Psi4 File", command=psisave_file).place(x=130,y=410)
-  games_button =Button(filewritebtnframe, text="Write GAMESS File", command=gamesave_file).place(x=270,y=410)
+  open_button =Button(geobtnframe, text="Open Geometry File", command=open_file,width=30,height=2).place(x=685,y=110)
+  psi_button =Button(filewritebtnframe, text="Write Psi4 File", command=psisave_file,height=2,width=15).place(x=130,y=395)
+  games_button =Button(filewritebtnframe, text="Write GAMESS File", command=gamesave_file,height=2,width=15).place(x=270,y=395)
+  outbtn=Button(filewritebtnframe, text="Output", command=output,height=2,width=15).place(x=270,y=460)
 
-  psilbl=Label(filewritebtnframe,text="For Psi4 File:").place(x=130,y=370)
-  gamelbl=Label(filewritebtnframe,text="For GAMESS File:").place(x=270,y=370)
+  psilbl=Label(filewritebtnframe,text="For Psi4 File:").place(x=130,y=365)
+  gamelbl=Label(filewritebtnframe,text="For GAMESS File:").place(x=270,y=365)
   #Inner Lables:
   in1lb1=Label(inframe1,text="Run Type:").place(x=115,y=55)
   orun=OptionMenu(inframe1,rtype,*['Energy', 'Hessian', 'Optimization'])
@@ -1800,12 +2789,17 @@ def control():
   in4lb3=Label(ctrlmidframe,text="CI: None").place(x=425,y=115)
   in4lb4=Label(ctrlmidframe,text="CC: None").place(x=425,y=145)
 
-  geolabel=Label(geoframe,text="Upload text file:").place(x=685,y=70)
+  geolabel=Label(geoframe,text="Upload Geometry(text) file of Molecule:").place(x=720,y=70)
+
+  logopic=PhotoImage(file="smallRids.png")
+  logo_label=Label(ctrlmidframe,image=logopic).place(x=550,y=380) 
+
+  outlbl=Label(filewritebtnframe,text=" Preview Output:").place(x=130,y=470)
 
 
 def basis():
   global miniopt
-  basmidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+  basmidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
   bas1=Label(basmidframe,text="Basis Set :").place(x=135,y=50)
 
   basmenu=OptionMenu(basmidframe,miniopt,*['MINI', 'MIDI','STO-2G','STO-3G','STO-4G','STO-5G','STO-6G','3-21G','6-21G','4-31G','5-31G','6-31G','6-311G'])
@@ -1822,7 +2816,7 @@ def basis():
 
 
 def data():
-  datamidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+  datamidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
   #Data Inner Labels
   global title,zmat
   title=Entry(datamidframe,width=50)
@@ -1849,39 +2843,41 @@ def data():
 
 
 def sys():
-  sysmidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+  global memvalue
+  sysmidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
   #System Inner Labels
   sys1=Label(sysmidframe,text="Time Limit : 525600.00").place(x=135,y=50)
   sys2=Label(sysmidframe,text="Memory(MB):").place(x=135,y=85)
   sys3=Label(sysmidframe,text="MemDDI :    0.00").place(x=135,y=120)
   sys4=Label(sysmidframe,text="Diagonalization Method :    default").place(x=135,y=155)
   sys5=Label(sysmidframe,text="Parallel Load Balance Type :    Loop").place(x=135,y=190)
-  global memvalue
   memvalue=Entry(sysmidframe,width=30)
   memvalue.place(x=240,y=85)
+  memvalue.insert(0,"10")
 
 
 
 def mo():
-  momidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+  momidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
   #System Inner Labels
   mo1=Label(momidframe,text="Initial Guess : Huckel").place(x=135,y=50)
   mo2=Label(momidframe,text="$VEC source :    000000").place(x=135,y=85)
 
 
 def scfopt():
-  scfmidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+  global scc
+  scfmidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
   #System Inner Labels
   scf1=Label(scfmidframe,text="Direct SCF").place(x=135,y=50)
   scf2=Label(scfmidframe,text="Compute only change in Fock Matrix").place(x=135,y=85)
   scf2=Label(scfmidframe,text="SCF Convergence Criteria :    10 ^ ").place(x=135,y=120)
   scc=Entry(scfmidframe,width=20)
   scc.place(x=325,y=120)
-  scc.insert(0,5)
+  scc.insert(0,"5")
 
 
 def summary():
-    summidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+    summidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
     global title, pgroup,miniopt,rtype,scf
     sum1=Label(text=f"Title :      {title.get()}")
     sum1.place(x=135,y=50)
@@ -1896,18 +2892,18 @@ def summary():
     
 def home():
  global logopic
- logomidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)  
+ logomidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)  
  logopic=PhotoImage(file="rids.png")
  logo_label=Label(logomidframe,image=logopic).place(x=200,y=70)  
 
 def about():
- aboutmidframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
- aboutlbl=Label(aboutmidframe,text="About Us", font=("Arial",20))
- aboutlbl.place(x=550,y=70)
- Label(aboutmidframe,text="Developed and Designed by Riddhiman Dutta.", font=("Arial",16)).place(x=400,y=130)
- Label(aboutmidframe,text="Traditionally, chemists have relied on text editors or command\nline tools to generate input files for quantum chemistry software, \nmaking the process time-consuming and prone to errors. \nThe RIDS Input Builder App addresses this gap by providing an intuitive,\nuser-friendly interface designed specifically for the quantum chemistry community.", font=("Arial",16)).place(x=230,y=190)
- Label(aboutmidframe,text="Unlike most existing solutions, this app allows users to input data\nand instantly receive outputs in multiple formats, facilitating\nseamless transfer to quantum chemistry packages such as\nChemCompute, GAMESS, or PSI4. Its multiformat support streamlines\nworkflow and significantly reduces the learning\ncurve for new users, while also catering to advanced needs through\nflexible output options. .", font=("Arial",16)).place(x=300,y=310)
- 
+ aboutmidframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+ aboutlbl=Label(aboutmidframe,text="About Us",fg="red", font=("Arial",22))
+ aboutlbl.place(x=610,y=70)
+ Label(aboutmidframe,fg="blue",text="Traditionally, chemists have relied on text editors or command\nline tools to generate input files for quantum chemistry software, \nmaking the process time-consuming and prone to errors. \nThe RIDS Input Builder App addresses this gap by providing an intuitive,\nuser-friendly interface designed specifically for the quantum chemistry community.", font=("Arial",16)).place(x=310,y=120)
+ Label(aboutmidframe,fg="blue",text="Unlike most existing solutions, this app allows users to input data\nand instantly receive outputs in multiple formats, facilitating\nseamless transfer to quantum chemistry packages such as\nChemCompute, GAMESS, or PSI4. Its multiformat support streamlines\nworkflow and significantly reduces the learning\ncurve for new users, while also catering to advanced needs through\nflexible output options.", font=("Arial",16)).place(x=360,y=240)
+ Label(aboutmidframe,text="Developed and Designed by Riddhiman Dutta.",fg="red" ,font=("Arial",16)).place(x=460,y=420)
+ Label(aboutmidframe,text="Email-riddhiman93@gmail.com",fg="red" ,font=("Arial",16)).place(x=550,y=450)
  
 
 #Variables
@@ -1916,14 +2912,15 @@ scf=StringVar(value="RHF")
 pgroup=StringVar(value="C1")
 title=StringVar(value="Title")
 miniopt=StringVar(value="MINI")
-memvalue=StringVar(value="500")
+memvalue=StringVar(value=10)
 zmat=StringVar(value=0)
+scc=StringVar(value=5)
 
 
 #Frames
-upperframe=LabelFrame(root,width=1160, height=30, bg="white", bd=2).place(x=1,y=5)
+upperframe=LabelFrame(root,width=1210, height=30, bg="white", bd=2).place(x=1,y=5)
 listframe=LabelFrame(root,width=100, height=480, bg="white", bd=2).place(x=1,y=38)
-midframe=LabelFrame(root,width=1055,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
+midframe=LabelFrame(root,width=1105,relief=SUNKEN, height=480,bd=2).place(x=105,y=38)
 
 #Buttons
 upbutton1 =Button(root, text="Home",bg="white",command=home,font=("Arial",10),relief="flat",padx=0,pady=0).place(x=3,y=7)
@@ -1939,19 +2936,19 @@ lbutton5 =Button(root, text="SCF Options",bg="white",command=scfopt,font=("Arial
 lbutton6 =Button(root, text="Summary",bg="white",command=summary,font=("Arial",10),relief="flat",padx=15,pady=0).place(x=3,y=190)
 
 
-lowbutton1 =Button(root, text="Write File",bg="white",command=gamesave_file,font=("Arial",10),relief="flat",padx=0,pady=0).place(x=440,y=520)
-lowbutton2=Button(root, text="Ok",bg="white",font=("Arial",10),relief="flat",padx=20,pady=0,command=output).place(x=532,y=520)
-lowbutton3 =Button(root, text="Cancel",bg="white",command=root.destroy,font=("Arial",10),relief="flat",padx=10,pady=0).place(x=622,y=520)
+
+lowbutton =Button(root, text="Close",bg="white",command=root.destroy,font=("Arial",10),relief="flat",padx=30,pady=0).place(x=580,y=520)
 
 photo=PhotoImage(file="rids.png")
 pic_label=Label(midframe,image=photo)
 pic_label.place(x=200,y=70)  
 
 
-root.title("RIDS Chemistry Input Builder App by Riddhiman Dutta(25BAI11325)")
+root.title("RIDS Chemistry Input Builder App by Riddhiman Dutta")
 logo=PhotoImage(file="rids.png")
 root.iconphoto(True,logo)
 
 
 
 root.mainloop()
+
